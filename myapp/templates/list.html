@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+    <head>
+        <meta charset="utf-8">
+        <title>Minimal Django File Upload Example</title>
+    </head>
+
+    <body>
+        
+        <h2>IMPORTANT- Some data like phone no and email's cant be extracted for every pdf due to the styling done in pdf's.</h2>
+        {% if excels %}
+            All documents in the database:
+            <table>
+                {% if excels|length >= 2 %}
+                <tr>
+                    <th>EXCEL</th>
+                    <th>CONVERTED PDF's</th>
+                </tr>
+                {% endif %}
+                
+                {% for document in excels %}
+                    {% if forloop.counter > 1 %}
+                    <tr>
+                       
+                          <td><a href="{{ document.docfile.url }}">Download Excel - {{document.id}}</a></td>
+                          <td><a href="http://127.0.0.1:8000/pdfview/{{document.id}}">View PDF's</a></td>    
+                        </tr>   
+                    {% endif %}     
+                {% endfor %}
+                
+            </table>
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+
+        <form action="{% url "my-view" %}" method="post" enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            {{ message }}
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <P>Drag and drop multiple files</P>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+
+            <p><input type="submit" value="Upload" id="submit"/></p>
+        </form>
+        
+    </body>
+ 
+</html>

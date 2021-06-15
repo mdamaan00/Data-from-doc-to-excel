@@ -13,6 +13,8 @@ After active installation to run the file just write the following in command pr
 
 3: pip install xlwt
 
+(Note: MS Office required to run the program as per the requirements by the library xlwt)
+
 Now run using 
 
 4: python manage.py runserver
